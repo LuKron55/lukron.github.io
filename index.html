@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="authorization_endpoint" href="https://indieauth.com/auth">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hi, I'm Lukron (Lucas Marsh), a 17-year-old from Essex studying BTEC Computer Science. Explore my personal website for tech tips, coding projects, and more.">
+    <meta name="keywords" content="Lukron, Lucas Marsh, Essex, BTEC Computer Science, tech tips, coding projects, personal website">
+    <meta name="author" content="Lucas Marsh">
+
+    <!-- Open Graph Metadata -->
+    <meta property="og:title" content="Lukron's Personal Website">
+    <meta property="og:description" content="Hi, I'm Lukron (Lucas Marsh), a 17-year-old from Essex studying BTEC Computer Science. Explore my personal website for tech tips, coding projects, and more.">
+    <meta property="og:image" content="https://lukron.xyz/lukron.png">
+    <meta property="og:url" content="https://lukron.xyz">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Lukron's Website">
+
+    <!-- Twitter Card Metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lukron's Personal Website">
+    <meta name="twitter:description" content="Hi, I'm Lukron (Lucas Marsh), a 17-year-old from Essex studying BTEC Computer Science. Explore my personal website for tech tips, coding projects, and more.">
+    <meta name="twitter:image" content="https://lukron.xyz/lukron.png">
+    <meta name="twitter:site" content="@lukronval">
+
+    <!-- Favicon -->
+    <link id="favicon" rel="icon" href="https://lukron.xyz/lukron.png" type="image/png">
+
+    <title>Lukron's Personal Website</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .dark-mode {
+            background-color: #121212; /* Dark grey background */
+            color: #e0e0e0; /* Light grey text color */
+        }
+        .light-mode {
+            background-color: #f5f5f5; /* Light grey background */
+            color: #121212; /* Dark text color */
+        }
+        .container {
+            text-align: center;
+            position: relative;
+        }
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            background-color: #1e1e1e; /* Dark grey background */
+            margin: 0 auto;
+            border: 3px solid #333; /* Darker grey border */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            background-image: url('lukron.png');
+            background-size: cover;
+            background-position: center;
+            transition: background-color 0.3s, border 0.3s;
+        }
+        .light-mode .profile-pic {
+            background-color: #ffffff; /* Light background for profile pic */
+            border: 3px solid #ccc; /* Light border */
+        }
+        .prompt {
+            margin-top: 30px;
+            font-size: 20px;
+            text-align: left;
+            display: inline-block;
+            background-color: #1e1e1e; /* Dark grey background */
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s, color 0.3s;
+            position: relative;
+            overflow: hidden; /* Ensures typing text stays within the box */
+        }
+        .light-mode .prompt {
+            background-color: #ffffff; /* Light background for prompt */
+            color: #121212; /* Dark text color */
+        }
+        .prompt .ip-address {
+            font-size: 20px;
+            font-family: monospace;
+            margin-top: 10px;
+            display: none; /* Hide by default */
+        }
+        .time {
+            color: #b0b0b0; /* Lighter grey for time */
+        }
+        .light-mode .time {
+            color: #666; /* Darker grey for time in light mode */
+        }
+        .status {
+            font-weight: bold;
+            color: #32cd32; /* Green for success */
+        }
+        .status.fail {
+            color: #ff4500; /* Red for failure */
+        }
+        .light-mode .status {
+            color: #008000; /* Darker green for success in light mode */
+        }
+        .light-mode .status.fail {
+            color: #ff0000; /* Darker red for failure in light mode */
+        }
+        .username {
+            color: #1e90ff; /* Bright blue */
+        }
+        .light-mode .username {
+            color: #0000ff; /* Darker blue */
+        }
+        .hostname {
+            color: #ffd700; /* Gold */
+        }
+        .light-mode .hostname {
+            color: #daa520; /* Darker gold */
+        }
+        .directory {
+            color: #87ceeb; /* Light sky blue */
+        }
+        .light-mode .directory {
+            color: #00bfff; /* Darker sky blue */
+        }
+        .newline {
+            color: #9370db; /* Medium purple */
+        }
+        .light-mode .newline {
+            color: #8a2be2; /* Darker purple */
+        }
+        .icons {
+            margin-top: 30px;
+        }
+        .icons a {
+            margin: 0 15px;
+            display: inline-block;
+        }
+        .icons img {
+            width: 36px;
+            height: 36px;
+            filter: invert(1); /* Invert colors for dark mode */
+            transition: filter 0.3s;
+        }
+        .light-mode .icons img {
+            filter: invert(0); /* Normal color for light mode */
+        }
+        .theme-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            transition: filter 0.3s;
+        }
+        .theme-switcher img {
+            width: 36px;
+            height: 36px;
+        }
+        .dark-mode .theme-switcher img {
+            filter: invert(1); /* Invert sun icon color for dark mode */
+        }
+        .light-mode .theme-switcher img {
+            filter: invert(0); /* Normal color for moon icon in light mode */
+        }
+        .copy-section {
+            margin-top: 30px;
+        }
+        .copy-button {
+            background-color: #1e1e1e; /* Dark grey background */
+            color: #e0e0e0; /* Light grey text color */
+            border: 1px solid #333; /* Darker grey border */
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border 0.3s;
+        }
+        .light-mode .copy-button {
+            background-color: #ffffff; /* Light background */
+            color: #121212; /* Dark text color */
+            border: 1px solid #ccc; /* Light border */
+        }
+        .copy-button:hover {
+            background-color: #333; /* Darker grey on hover */
+        }
+        .light-mode .copy-button:hover {
+            background-color: #ccc; /* Lighter grey on hover */
+        }
+        .instruction {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .command-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        .commands {
+            font-family: monospace;
+            font-size: 20px; /* Set font size to 20px */
+            color: inherit;
+            white-space: pre; /* Preserve whitespace formatting */
+            display: inline;
+            margin-left: 5px; /* Space between dollar sign and text */
+        }
+        /* Additional styles for favicon inversion */
+        .dark-mode #favicon {
+            filter: invert(1); /* Invert favicon for dark mode */
+        }
+        .light-mode #favicon {
+            filter: invert(0); /* Normal favicon for light mode */
+        }
+        /* Web Rings */
+        .webring {
+            margin-top: 30px;
+            font-size: 18px;
+        }
+        .webring a {
+            text-decoration: none;
+            color: #1e90ff; /* Bright blue for links */
+            margin: 0 10px;
+        }
+        .webring a:hover {
+            text-decoration: underline;
+        }
+        
+        .load-time {
+            margin-top: 30px;
+            font-size: 14px; /* Small font size */
+            color: #D3D3D3; /* Grey color */
+            text-align: center;
+        }
+        .light-mode .load-time {
+            margin-top: 30px;
+            font-size: 14px; /* Small font size */
+            color: #636363; /* Grey color */
+            text-align: center;
+        }
+        
+    
+        .club25 {
+            font-size: 25px; /* Font size of 25px */
+            color: #1e90ff; /* Same blue color as webring links */
+            text-align: center; /* Center align the text */
+            margin-top: 30px; /* Space above the text */
+            text-decoration: none;
+        }
+
+        .club25 a {
+            font-size: 25px; /* Font size of 25px */
+            color: #1e90ff; /* Same blue color as webring links */
+            text-align: center; /* Center align the text */
+            text-decoration: none;
+        }
+        .club25 a:hover {
+            font-size: 25px; /* Font size of 25px */
+            color: #1e90ff; /* Same blue color as webring links */
+            text-align: center; /* Center align the text */
+            margin-top: 30px; /* Space above the text */
+            text-decoration: underline;
+        }
+
+
+    </style>
+</head>
+<body class="dark-mode">
+    <div class="container">
+        <div class="profile-pic">
+            <!-- Profile picture will be shown here -->
+        </div>
+        <div class="prompt">
+            <span class="time"></span>
+            <span class="status"></span>
+            <span class="username">lukron</span>
+            <span class="hostname">@archlinux</span>
+            <span class="directory">~</span>
+            <br>
+            <div class="command-wrapper">
+                <span class="newline">$</span>
+                <div class="commands" id="commands">
+                    <!-- Commands will be typed out here -->
+                </div>
+            </div>
+            <div class="ip-address" id="ip-address">
+                <!-- IP address will be shown here -->
+            </div>
+        </div>
+        <div class="icons">
+            <a href="https://discord.gg/m2edpk6Tep" target="_blank" title="Join Discord">
+                <img src="https://img.icons8.com/?size=100&id=30888&format=png&color=000000" alt="Discord">
+            </a>
+            <a href="mailto:lucas@lukron.xyz" title="Send Email">
+                <img src="https://img.icons8.com/?size=100&id=12623&format=png&color=000000" alt="Mail">
+            </a>
+            <a href="https://github.com/lukron55" rel="me" target="_blank" title="Visit GitHub Profile">
+                <img src="https://img.icons8.com/?size=100&id=12599&format=png&color=000000" alt="GitHub">
+            </a>
+        </div>
+        <div class="theme-switcher">
+            <img src="https://img.icons8.com/?size=100&id=9313&format=png&color=000000" alt="Switch to Light Mode" id="theme-toggle">
+        </div>
+        <div class="copy-section">
+            <button class="copy-button" id="copy-button">Copy Bash Prompt</button>
+            <div class="instruction">Click the button to copy the Bash prompt configuration.</div>
+        </div>
+        
+        <div class="club25"> 
+            <a href= "https://250kb.club/">250KB Club / 50KB</a> 
+        </div>
+        <!-- Web Rings Section -->
+        <div class="webring">
+            <a href="https://xn--sr8hvo.ws/previous">←</a>
+            An <a href="https://xn--sr8hvo.ws">IndieWeb Webring</a> 🕸💍
+            <a href="https://xn--sr8hvo.ws/next">→</a>
+        </div>
+        
+        <div class="webring">
+        <a href='https://webring.dinhe.net/prev/https://lukron.xyz'>←</a>
+        <a href="https://webring.dinhe.net/">Retronaut</a>
+        <a href="https://webring.dinhe.net/next/lukron.xyz">→</a>
+        </div>
+        
+        <div class="load-time">
+            Page Loaded In <span id="load-time"></span> Seconds
+        </div>
+
+    </div>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const commandsElement = document.getElementById('commands');
+        const ipAddressElement = document.getElementById('ip-address');
+        const copyButton = document.getElementById('copy-button');
+        const favicon = document.getElementById('favicon');
+        let darkMode = true;
+        let shuffledCommands;
+        let commandIndex = 0;
+        let charIndex = 0;
+        let deleting = false;
+        let isCurlCommand = false;
+
+        const commands = [
+            'sudo apt install neofetch',
+            'neofetch',
+            'sudo rm -rf /',
+            'echo hello world',
+            'systemctl enable sshd',
+            'rm /home/USER/homework',
+            'systemctl restart daemon-reload',
+            'curl ifconfig.co'
+        ];
+
+        function applyTheme() {
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                document.body.classList.remove('light-mode');
+                themeToggle.src = 'https://img.icons8.com/?size=100&id=9313&format=png&color=000000'; // Sun icon for dark mode
+                favicon.href = 'https://lukron.xyz/lukron.png'; // Invert favicon for dark mode
+            } else {
+                document.body.classList.add('light-mode');
+                document.body.classList.remove('dark-mode');
+                themeToggle.src = 'https://img.icons8.com/?size=100&id=54382&format=png&color=000000'; // Moon icon for light mode
+                favicon.href = 'https://lukron.xyz/lukron.png'; // Normal favicon for light mode
+            }
+        }
+
+        themeToggle.addEventListener('click', () => {
+            darkMode = !darkMode;
+            applyTheme();
+        });
+
+        // Initialize the theme
+        applyTheme();
+
+        // Function to update the time every second
+        function updateTime() {
+            const timeElement = document.querySelector('.time');
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Function to set a random status (✔ or ✘)
+        function setRandomStatus() {
+            const statusElement = document.querySelector('.status');
+            const isSuccess = Math.random() >= 0.5;
+            statusElement.textContent = isSuccess ? '✔' : '✘';
+            if (!isSuccess) {
+                statusElement.classList.add('fail');
+            }
+        }
+
+        // Initialize the time and status when the page loads
+        updateTime();
+        setRandomStatus();
+
+        // Update the time every second
+        setInterval(updateTime, 1000);
+
+        // Function to shuffle an array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Function to fetch IP address
+        async function fetchIpAddress() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                ipAddressElement.textContent = `Your IP Address: ${data.ip}`;
+            } catch (error) {
+                ipAddressElement.textContent = 'Failed to fetch IP address.';
+            }
+        }
+
+        function typeCommand() {
+            if (commandIndex >= shuffledCommands.length) {
+                shuffledCommands = shuffleArray([...commands]);
+                commandIndex = 0;
+            }
+
+            const currentCommand = shuffledCommands[commandIndex];
+            const currentChar = currentCommand[charIndex];
+
+            if (deleting) {
+                if (charIndex > 0) {
+                    commandsElement.textContent = currentCommand.slice(0, charIndex - 1) + '_';
+                    charIndex--;
+                    setTimeout(typeCommand, 100); // Typing speed
+                } else {
+                    deleting = false;
+                    commandIndex++;
+                    if (isCurlCommand) {
+                        setTimeout(() => {
+                            ipAddressElement.style.display = 'none'; // Hide IP address after deletion
+                            ipAddressElement.textContent = ''; // Clear IP address text
+                        }, 1000); // Keep IP visible for 3 seconds
+                        isCurlCommand = false;
+                    }
+                    setTimeout(typeCommand, 1500); // Longer delay before starting the next command
+                }
+            } else {
+                if (charIndex < currentCommand.length) {
+                    commandsElement.textContent = currentCommand.slice(0, charIndex + 1) + '_';
+                    charIndex++;
+                    if (currentCommand === 'curl ifconfig.co') {
+                        isCurlCommand = true;
+                        setTimeout(() => {
+                            ipAddressElement.style.display = 'block'; // Show IP address
+                            fetchIpAddress(); // Fetch and display IP address
+                        }, 500); // Delay before showing IP
+                    }
+                    setTimeout(typeCommand, 100); // Typing speed
+                } else {
+                    deleting = true;
+                    setTimeout(typeCommand, isCurlCommand ? 3000 : 1000); // Longer delay before starting deletion for curl command
+                }
+            }
+        }
+
+        // Start typing commands
+        shuffledCommands = shuffleArray([...commands]);
+        typeCommand();
+
+        // Function to copy the Bash prompt to clipboard
+        copyButton.addEventListener('click', () => {
+            const promptText = "export PS1='\\[\\e[1;30m\\]\\t`if [ $? = 0 ]; then echo \"\\[\\e[1;32m\\] ✔ \"; else echo \"\\[\\e[1;31m\\] ✘ \"; fi`\\[\\e[1;36m\\]\\u\\[\\e[1;33m\\]@\\h \\[\\e[1;34m\\]\\w \\n\\[\\e[1;35m\\]\\$ \\[\\e[0m\\]'";
+            navigator.clipboard.writeText(promptText).then(() => {
+                alert('Bash prompt copied to clipboard!');
+            }).catch(err => {
+                alert('Failed to copy text. Please try again.');
+            });
+        });
+        
+        window.addEventListener('load', () => {
+            const loadTimeElement = document.getElementById('load-time');
+            const loadTime = (performance.now() / 1000).toFixed(5); // Time in seconds to 5 decimal places
+            loadTimeElement.textContent = loadTime;
+        });
+
+    </script>
+</body>
+</html>
